@@ -1,137 +1,201 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Core To-Do-list Focus</title>
-<meta name="author" content="Anvita Gogineni">
-<style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Segoe UI',sans-serif;
-}
+    <meta charset="UTF-8">
+    <title>Anvita's Medical Helper</title>
+    <style>
+        /* Basic styling for clean, readable layout */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
 
-body{
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background:linear-gradient(180deg,#d8f3dc,#f1faee);
-}
+        .header {
+            text-align: center;
+            background-color: #0284c7;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
 
-.container{
-    width:90%;
-    max-width:500px;
-    background:rgba(255,255,255,0.95);
-    padding:30px;
-    border-radius:25px;
-    box-shadow:0 10px 25px rgba(46,125,50,0.15);
-}
+        .section {
+            background-color: white;
+            border: 2px solid #bce1f5;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
 
-h1{
-    text-align:center;
-    color:#2d6a4f;
-    margin-bottom:8px;
-    font-size:2.3rem;
-}
+        h2 {
+            color: #0284c7;
+            margin-top: 0;
+        }
 
-.subtitle{
-    text-align:center;
-    color:#588157;
-    margin-bottom:25px;
-}
+        label, input, select, button {
+            display: block;
+            width: 100%;
+            margin-top: 10px;
+            padding: 10px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
 
-.input-box{
-    width:100%;
-    padding:14px;
-    border:none;
-    border-bottom:2px solid #95d5b2;
-    background:transparent;
-    outline:none;
-    font-size:1rem;
-    color:#2d6a4f;
-}
+        button {
+            background-color: #0d9488;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
 
-.input-box::placeholder{
-    color:#7da37d;
-}
+        button:hover {
+            background-color: #0f766e;
+        }
 
-ul{
-    list-style:none;
-    margin-top:20px;
-}
+        .result-box {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #e6fcf5;
+            border-left: 5px solid #0d9488;
+            display: none;
+        }
 
-li{
-    background:#f6fff8;
-    margin:10px 0;
-    padding:14px;
-    border-left:5px solid #52b788;
-    border-radius:12px;
-    cursor:pointer;
-    transition:.3s;
-    color:#2d6a4f;
-}
+        /* Task Organizer Styles */
+        .task-row {
+            display: flex;
+            gap: 10px;
+        }
 
-li:hover{
-    transform:translateX(4px);
-}
+        .task-row input {
+            flex: 3;
+        }
 
-.completed{
-    text-decoration:line-through;
-    opacity:0.55;
-}
+        .task-row button {
+            flex: 1;
+            margin-top: 10px;
+        }
 
-.footer{
-    text-align:center;
-    margin-top:20px;
-    color:#74a57f;
-    font-size:0.9rem;
-}
-</style>
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 15px;
+        }
+
+        li {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border: 1px solid #ddd;
+            margin-bottom: 5px;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .delete-btn {
+            background-color: #ef4444;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: auto;
+        }
+    </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>🌿 Core To-Do-List Focus</h1>
-    <p class="subtitle">Grow your goals naturally</p>
+    <div class="header">
+        <h1>Anvita's Medical Innovations Portal</h1>
+        <p>Combining Dermatology & AI Task Management</p>
+    </div>
 
-    <input
-        type="text"
-        id="taskInput"
-        class="input-box"
-        placeholder="Type a task and press Enter..."
-    >
+    <!-- Part 1: Dermatology Symptom Checker Simulator -->
+    <div class="section">
+        <h2>🩺 DermAI Triage Checker</h2>
+        <p>Select your skin concern to simulate an automated medical analysis report:</p>
+        
+        <label for="symptom">Choose a concern:</label>
+        <select id="symptom">
+            <option value="acne">Persistent Red Breakouts</option>
+            <option value="dryness">Dry, Itchy Patches</option>
+            <option value="mole">Asymmetrical Dark Spot</option>
+        </select>
 
-    <ul id="taskList"></ul>
+        <button onclick="checkSymptom()">Run AI Check</button>
 
-    <div class="footer"> Created by Anvita Gogineni |🌱 One step closer every day | Student developer</div>
-</div>
+        <div id="result" class="result-box">
+            <strong>AI Assessment Summary:</strong>
+            <p id="result-text"></p>
+        </div>
+    </div>
 
-<script>
-const input = document.getElementById("taskInput");
-const list = document.getElementById("taskList");
+    <!-- Part 2: Simplified Task Organizer -->
+    <div class="section">
+        <h2>📅 Medical Student Task Organizer</h2>
+        <p>Keep track of your study targets and non-profit volunteer work:</p>
+        
+        <div class="task-row">
+            <input type="text" id="task-input" placeholder="Type a new task here...">
+            <button onclick="addTask()">Add</button>
+        </div>
 
-input.addEventListener("keypress", function(e) {
-    if (e.key === "Enter" && input.value.trim() !== "") {
+        <ul id="task-list">
+            <li>
+                <span>Study AIIMS Biology Entry Prep Notes</span>
+                <button class="delete-btn" onclick="deleteTask(this)">Delete</button>
+            </li>
+        </ul>
+    </div>
 
-        const li = document.createElement("li");
-        li.textContent = "🍃 " + input.value;
+    <script>
+        // Dermatology Check Logic
+        function checkSymptom() {
+            var selectedSymptom = document.getElementById("symptom").value;
+            var textElement = document.getElementById("result-text");
+            var boxElement = document.getElementById("result");
+            
+            if (selectedSymptom === "acne") {
+                textElement.innerText = "Likely standard acne patterns detected. AI Recommendation: Use oil-free cleansers and consult a dermatologist if it persists.";
+            } else if (selectedSymptom === "dryness") {
+                textElement.innerText = "Dry skin barrier indicators found. AI Recommendation: Apply intensive hydration creams and protect from harsh winds.";
+            } else if (selectedSymptom === "mole") {
+                textElement.innerText = "Unusual pigmentation borders flagged. AI Recommendation: Schedule an immediate in-person check-up with a medical expert.";
+            }
 
-        li.addEventListener("click", () => {
-            li.classList.toggle("completed");
-        });
+            boxElement.style.display = "block";
+        }
 
-        li.addEventListener("dblclick", () => {
+        // Task Organizer Logic
+        function addTask() {
+            var taskInput = document.getElementById("task-input");
+            var taskText = taskInput.value.trim();
+            
+            if (taskText === "") {
+                alert("Please type a task first!");
+                return;
+            }
+
+            var ul = document.getElementById("task-list");
+            var li = document.createElement("li");
+            
+            li.innerHTML = "<span>" + taskText + "</span> <button class='delete-btn' onclick='deleteTask(this)'>Delete</button>";
+            ul.appendChild(li);
+            
+            taskInput.value = ""; // Clear input field
+        }
+
+        function deleteTask(buttonElement) {
+            var li = buttonElement.parentElement;
             li.remove();
-        });
-
-        list.appendChild(li);
-        input.value = "";
-    }
-});
-</script>
+        }
+    </script>
 
 </body>
 </html>
